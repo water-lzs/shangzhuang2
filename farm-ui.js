@@ -5,6 +5,7 @@ import {createVariety} from './variety-ui.js'
 import {createSocial} from './social-ui.js'
 import {createNpc} from './npc-ui.js'
 import {createFinale} from './finale-ui.js'
+import {clearOpening} from './opening-cg.js'
 import {SAVE_KEY,TERMS,WATER,PEST,createFarm,reduceFarm,readSave,planted,tds,pestLabel,estimate,seedOf,seedTotal,plotVarietyOf,omenOf,dayLeftMs,reputationOf,termInfoOf,termDayOf,termLeftOf,activeQuests,questInfo,questRemain,pendingEventOf,eventQueueLen,paidText,affordable,finaleWordsOf,finaleReadyOf,finaleMetricsOf} from './farm-engine.js'
 import {slotKey,currentSlot} from './storage.js'
 import {ECON,DAY_MS,INSPECT_LIMIT,seedPriceOf,TOOL_LEVELS,LAND_LEVELS,WORKSHOP_LEVELS,HOUSE_LEVELS,toolOf,landOf,roomsOf,houseOf,OMEN_EVENT_MAP} from './economy.js'
@@ -28,7 +29,7 @@ function statusCards(s){
  if(s.ui?.showNumbers)return [['土壤湿度',s.moisture+'%','适宜 60–80%'],['水质 TDS',tds(s)+' mg/L','水质 '+s.water+' / 100'],['生态值',s.ecology+' / 100','产量系数 ×'+(.8+.004*s.ecology).toFixed(2)],['病虫害',pestLabel(s.pests),s.pests+' / 100']]
  return [['田水',waterWord(s.water),'近前细看'],['田土',soilWord(s.moisture),'脚下的感觉'],['生气',ecoWord(s.ecology),'田埂上的动静'],['稻叶',leafWord(s.pests),'低头翻叶背']]
 }
-export function mountFarm({onChange}){
+export function mountFarm({onChange,onAction}){
  const demo=new URLSearchParams(location.search).get('demo')==='1';let storageWarning='';let raw=null
  // —— 包 A：正式局走档位（jingxi-farm-v3-slot1~4），试玩局仍走 sessionStorage、绝不占档位。——
  const key=demo?SAVE_KEY+'-demo':slotKey(currentSlot()??1)
@@ -44,7 +45,11 @@ export function mountFarm({onChange}){
   return list}
  function persist(){try{// —— 包 A：档位上要显示「账号名 / 最近游玩时间」，顺手写进存档，不给它单开一个键。——
   state.profile={name:state.profile?.name||'林宇的田',savedAt:Date.now()};(demo?sessionStorage:localStorage).setItem(key,JSON.stringify(state));}catch{storageWarning='存档写入失败，请保持页面开启。';}}
- function dispatch(action,{quiet=false}={}){if(action.type==='detect')action={...action,at:Date.now()};if(action.now===undefined&&['tick','advance','inspect','plant'].includes(action.type))action={...action,now:Date.now()};const oldSeason=state.season;const result=reduceFarm(state,action);message=result.error||'';if(!result.error){state=result.state;persist();if(!quiet)onChange({...state,activity});}document.querySelector('#farm-root').dataset.state=JSON.stringify(state);if(!quiet){render();if(state.pending&&activity==='farm')requestAnimationFrame(()=>document.querySelector('.farm-event')?.scrollIntoView({behavior:'smooth',block:'center'}));else if(state.season!==oldSeason)window.scrollTo({top:0,behavior:'smooth'});}return !result.error;}
+ function dispatch(action,{quiet=false}={}){if(action.type==='detect')action={...action,at:Date.now()};if(action.now===undefined&&['tick','advance','inspect','plant'].includes(action.type))action={...action,now:Date.now()};const oldSeason=state.season,before=state;const result=reduceFarm(state,action);message=result.error||'';if(!result.error){state=result.state;persist();if(!quiet)onChange({...state,activity});}document.querySelector('#farm-root').dataset.state=JSON.stringify(state);if(!quiet){render();if(state.pending&&activity==='farm')requestAnimationFrame(()=>document.querySelector('.farm-event')?.scrollIntoView({behavior:'smooth',block:'center'}));else if(state.season!==oldSeason)window.scrollTo({top:0,behavior:'smooth'});}
+  // 演出必须等 render() 之后叫：panel 的 DOM 先落定，收起时才不会闪一下旧内容。
+  // quiet 的内部推进（每秒的节气倒计时、生长 tick）一律不演 —— 那不是玩家做的动作。
+  if(!result.error&&!quiet&&onAction)try{onAction(action,before,state);}catch{}
+  return !result.error;}
  function setActivity(next){if(next==='farm'&&state.space!=='home')dispatch({type:'space:switch',space:'home'});if(['processing','sales','npc','social'].includes(next)&&state.space!=='town')dispatch({type:'space:switch',space:'town'});if(activity==='processing'&&next!=='processing')processing.pause();if(next!=='ending')finale?.dismiss?.();activity=next;const u=new URL(location.href);u.searchParams.set('view',next);history.replaceState({},'',u);onChange({...state,activity});render();window.scrollTo({top:0,behavior:'smooth'});}
 
  // —— 生长时间：每 20 秒一个游戏天。定时器只做两件事：到点推进一天；把剩余秒数写到进度条上。——
@@ -273,7 +278,8 @@ function showDetect(){
    if(a==='reset-request'){resetPending=true;render();return;}if(a==='reset-cancel'){resetPending=false;render();return;}
    if(a==='granary'){granaryOpen=!granaryOpen;render();return;}
    if(a==='detect'){if(dispatch({type:'detect'}))showDetect();return;}
-   if(a==='reset-confirm'){state=createFarm(Date.now()>>>0);resetPending=false;persist();onChange({...state,activity});render();return;}
+   // 重开＝重新开始一局，片头也该跟着重看一遍：清掉「已看过」标记再叫一次开场 CG。
+   if(a==='reset-confirm'){state=createFarm(Date.now()>>>0);resetPending=false;persist();clearOpening();onChange({...state,activity});render();window.__replayOpening?.();return;}
    // —— 包 K：终章入口。触发条件成立时，田页顶部直接给一条去路。——
    if(a==='finale-go'){setActivity('ending');return;}
    if(a==='plant-count')return dispatch({type:'plant',count:Number(document.querySelector('#plant-count').value),variety:pickedVariety})

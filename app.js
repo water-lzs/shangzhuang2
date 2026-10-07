@@ -1,4 +1,6 @@
 import {mountImmersive} from './immersive.js';
+import {createFarmCG} from './farm-cg.js';
+import {createOpening,openingSeen,openingPending,markOpeningPending} from './opening-cg.js';
 import {unlock as audioUnlock,setScene as audioScene,sfx as audioSfx,isOn as audioOn,toggle as audioToggle} from './audio.js';
 import {mountFarm} from './farm-ui.js';
 import * as THREE from 'three';
@@ -33,6 +35,8 @@ let activeModel=null,activeSeason='spring',loadToken=0,frameStart=performance.no
 const cache=new Map();const loader=new GLTFLoader();
 let farmState=null,requestedSeason=null,requestedSpace=null,techEffects=null,techAnim=0;
 let waterMats=[],riceMats=[],tintMats=[],ecoGroup=null,ecoAnim=0,prevFarm=null;
+let opening=null;   // 开场 CG 实例（见 opening-cg.js）。主循环靠它判断相机归谁管。
+let farmCG=null;    // 农事演出实例（见 farm-cg.js）。同上，演出期间相机归它管。
 const cropUniforms={farmMask:{value:new Float32Array(10)},farmGrowth:{value:1},farmStage:{value:0},farmTime:{value:0}};
 function syncFarm(state){
  const changed=farmState&&farmState.space!==state.space;farmState=state;document.title='穿越京西稻 · '+(state.activity==='processing'?'御米作坊':state.activity==='sales'?'时空交易行':state.activity==='variety'?'御贡图鉴':SEASONS[state.season].label);const mask=state.activity==='processing'||state.activity==='sales'||state.activity==='variety'?Array(10).fill(true):state.season==='winter'?state.previousPlots:state.harvested?Array(10).fill(false):state.plots;
@@ -722,7 +726,11 @@ function init(){
  renderer.setAnimationLoop(t=>{
   // 包 G：稻子的风摆要一直在动，所以每帧把时间喂给着色器（秒）。
   cropUniforms.farmTime.value=t*.001;
-  if(lastFrame&&diagnostics.modelLoaded&&t-seasonStarted>4000){diagnostics.frameTimes.push(t-lastFrame);if(diagnostics.frameTimes.length>3600)diagnostics.frameTimes.shift();}lastFrame=t;controls.update();updateHotspots(t);updateUpgrades(t);renderer.render(scene,camera);frameCount++;
+  if(lastFrame&&diagnostics.modelLoaded&&t-seasonStarted>4000){diagnostics.frameTimes.push(t-lastFrame);if(diagnostics.frameTimes.length>3600)diagnostics.frameTimes.shift();}lastFrame=t;
+  // 开场 CG 在放的时候相机归它管：这里必须让开，否则 OrbitControls 每帧会把机位拉回目标点。
+  // 农事演出（farm-cg）同理，只是它短、且随时可跳过。
+  if(opening&&opening.active())opening.tick(t);else if(farmCG&&farmCG.active())farmCG.tick(t);else controls.update();
+  updateHotspots(t);updateUpgrades(t);renderer.render(scene,camera);frameCount++;
   if(t-frameStart>=1000){fps=Math.round(frameCount*1000/(t-frameStart));$('#fps').textContent=fps;diagnostics.frames.push({at:Math.round(t),season:activeSeason,fps});if(diagnostics.frames.length>180)diagnostics.frames.shift();frameStart=t;frameCount=0;
    // 自适应分辨率：把渲染分辨率当阀门用，而不是把帧率锁死。
    // 低于 40 fps 连续 3 秒 → 降一档（下限 ALIGN.minQualityScale）；高于 55 fps 连续 12 秒 → 升回一档。
@@ -748,6 +756,11 @@ function init(){
  // 注意 riceMats 用函数取：模型是静态合批的，场景里没有 Rice_ 网格可数，
  // 「挂上生长着色器的材质数」才是稻子是否在场的真凭据。
  if(new URLSearchParams(location.search).has('debug')){window.__scene=scene;window.__camera=camera;window.__renderer=renderer;window.__cropUniforms=cropUniforms;window.__seasons=SEASONS;window.__riceMats=()=>riceMats.length;window.__controls=controls;}
+ // —— 农事演出：每个成功的农事动作都在场景里演一遍，不再只是日志滚一行 ——
+ // 分两档：大动作收起面板、镜头飞进田里演 3~5 秒；日常动作（买种、雇工、检测）只在场边放一簇粒子，
+ // 相机一步不动 —— 玩家还在面板里读字，不该被强行拽出去。
+ farmCG=createFarmCG({scene,camera,controls,getState:()=>farmState,sfx:audioSfx,cropUniforms});
+ window.__farmCG=farmCG;
 }
 function skyTexture(colors){
  const c=document.createElement('canvas');c.width=1024;c.height=768;const ctx=c.getContext('2d');
@@ -880,5 +893,41 @@ function gateToSlot(){
  diagnostics.slotPicker=true;
  return false;
 }
-async function boot(){init();bindHotspotPointer();assets=(await (await fetch('./manifest.json')).json()).files;const game=mountFarm({onChange:syncFarm});gameAPI=game;mountImmersive(game);resizeView();window.__JINGXI_BOOTED=true;}
+// 开场 CG：机位落点直接取 alignment.json 当前季的相机位（不再硬编码），
+// 这样以后调镜头时片尾会跟着走，交还 OrbitControls 的那一帧永远不跳。
+function startOpening(){
+ const c=SEASONS[activeSeason]||SEASONS.spring;
+ if(opening){try{opening.destroy();}catch{}}
+ opening=createOpening({camera,controls,scene,landPos:c.camera,landLook:c.target,isModelReady:()=>diagnostics.modelLoaded,sfx:audioSfx,unlock:audioUnlock});
+ window.__opening=opening;
+}
+// 「重开一局」用：清掉看过标记（在 farm-ui 里做）之后叫一次，让片头重播。
+window.__replayOpening=()=>startOpening();
+
+// —— 动作 → 演出 的映射表 ——
+// full：收起面板、镜头飞进田里、配字幕，随时可跳过。这些是「一年也没几次」的大动作。
+// pulse：相机一步不动，只在院边放一簇粒子 —— 玩家还在面板里读字，不该被拽出去。
+const ACTION_FULL={plant:'plant',water:'water',harvest:'harvest',inspect:'inspect',upgrade:'upgrade'};
+const ACTION_PULSE={'seed:buy':'buy',hire:'hire',detect:'detect','quest:fulfill':'seed'};
+function playAction(action,before,after){
+ if(!farmCG||!action)return;
+ const t=action.type;
+ // 除虫三选一：演什么随玩家的办法走 —— 药雾、投蟹、还是弯腰手捉
+ if(t==='pest'){farmCG.play(action.choice==='crab'?'crab':action.choice==='pesticide'?'pesticide':'manual',{before,after});return;}
+ if(ACTION_FULL[t]){farmCG.play(ACTION_FULL[t],{before,after});return;}
+ const p=ACTION_PULSE[t];
+ if(p)farmCG.play(p,{plain:true,before,after});
+}
+
+async function boot(){
+ init();bindHotspotPointer();assets=(await (await fetch('./manifest.json')).json()).files;const game=mountFarm({onChange:syncFarm,onAction:playAction});gameAPI=game;
+ // 新手引导要用实机演示：把农事演出直接借给 immersive（见 immersive.js 的「看实机演示」按钮）
+ game.playFx=(kind,ctx)=>farmCG?farmCG.play(kind,ctx):false;
+ // 这个标记必须赶在 mountImmersive 之前打上 —— 新手引导是挂载那一刻就决定弹不弹的，
+ // 晚一步它就会抢在片头前面跳出来。
+ if(!openingSeen())markOpeningPending(true);
+ mountImmersive(game);resizeView();
+ if(openingPending())startOpening();
+ window.__JINGXI_BOOTED=true;
+}
 if(gateToSlot()){try{await boot();}catch(err){$('#farm-root').textContent='页面初始化失败：'+err.message;diagnostics.errors.push(String(err));}}

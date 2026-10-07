@@ -26,7 +26,7 @@
     var map=JSON.parse(document.querySelector('script[type="importmap"]').textContent).imports||{};
     threeURL=map['three']||null;addonsBase=map['three/addons/']||null;
   }catch(e){}
-  var files=['./app.js','./farm-ui.js','./immersive.js','./tech-engine.js','./event-engine.js','./hotspot-engine.js','./finale-engine.js','./finale-ui.js','./finale.css','./npc-engine.js','./npc-ui.js','./npc.css','./storage.js','./slot-ui.js','./slot.css','./granary.js','./textures.js','./alignment.json','./style.css'];
+  var files=['./app.js','./farm-ui.js','./immersive.js','./opening-cg.js','./farm-cg.js','./tech-engine.js','./event-engine.js','./hotspot-engine.js','./finale-engine.js','./finale-ui.js','./finale.css','./npc-engine.js','./npc-ui.js','./npc.css','./storage.js','./slot-ui.js','./slot.css','./granary.js','./textures.js','./alignment.json','./style.css'];
   if(threeURL)files.push(threeURL);
   if(addonsBase){
     // 拍平包把 addons 拍到了根级（three/addons/ → ./），源码树则保留 loaders/ 子目录
