@@ -77,10 +77,9 @@ function syncCreatures(e){
 function buildCreatures(){
  ecoGroup=new THREE.Group();ecoGroup.name='EcoCreatures';
  const frogMat=new THREE.MeshStandardMaterial({color:0x4f7a3b,roughness:.85});
- const wingMat=new THREE.MeshStandardMaterial({color:0xc8b780,roughness:.6,transparent:true,opacity:.8,side:THREE.DoubleSide});
  const birdMat=new THREE.MeshStandardMaterial({color:0xf0f2ea,roughness:.75});
  for(let i=0;i<4;i++){const f=new THREE.Group();const body=new THREE.Mesh(new THREE.SphereGeometry(.13,8,6),frogMat);body.scale.set(1.25,.8,1);f.add(body);f.position.set(-8+i*5.2,.02,-9.4+(i%2)*18.6);f.userData={kind:'frog',baseY:.02,phase:i*1.7};ecoGroup.add(f);}
- for(let i=0;i<6;i++){const d=new THREE.Group();const b=new THREE.Mesh(new THREE.CapsuleGeometry(.02,.22,3,6),wingMat);b.rotation.z=Math.PI/2;const l=new THREE.Mesh(new THREE.PlaneGeometry(.34,.09),wingMat),r=l.clone();l.position.x=-.16;r.position.x=.16;d.add(b,l,r);const bx=-10+i*4,by=.9+((i*37)%10)/14,bz=-8+(i%3)*7;d.position.set(bx,by,bz);d.userData={kind:'dragonfly',baseX:bx,baseY:by,baseZ:bz,phase:i*.9};ecoGroup.add(d);}
+ // 蜻蜓已移除：土黄水平翅面远看就是一条条会平移的悬浮黄条，玩家以为是 bug
  for(let i=0;i<2;i++){const g=new THREE.Group();const body=new THREE.Mesh(new THREE.SphereGeometry(.16,8,6),birdMat);body.scale.set(1.5,.75,.9);const neck=new THREE.Mesh(new THREE.CylinderGeometry(.035,.045,.42,6),birdMat);neck.position.set(.16,.26,0);const head=new THREE.Mesh(new THREE.SphereGeometry(.07,7,5),birdMat);head.position.set(.2,.48,0);g.add(body,neck,head);const bx=-14+i*11;g.position.set(bx,.2,10.5-i*3);g.userData={kind:'egret',baseX:bx,phase:i*2.2};ecoGroup.add(g);}
  scene.add(ecoGroup);
  const t0=performance.now();
@@ -263,14 +262,65 @@ function buildHotspots(){
    const tie=box(.26,.06,.26,mat(dark));tie.position.set(x,1.9,0);g.add(tie);
   }
  });
- // 老宅门环：门楣门柱 · 两扇门板 · 中缝 · 一对铜环 · 阶石
+ // 老宅门环：做旧的院门楼——塌檐旧门 · 断墙残段 · 锈铜环 · 苔痕阶石（别再像块新门板杵在田边）
  add('doorring',(g,mat)=>{
-  const lintel=box(2.72,.22,.32,mat(wood));lintel.position.y=2.28;g.add(lintel);
-  for(const x of[-1.24,1.24]){const p=box(.24,2.3,.32,mat(wood));p.position.set(x,1.15,0);g.add(p);}
-  for(const x of[-.58,.58]){const b=box(1.12,2.0,.1,mat(wood));b.position.set(x,1.0,0);g.add(b);}
-  const seam=box(.06,2.0,.12,mat(dark));seam.position.set(0,1.0,0);g.add(seam);
-  for(const x of[-.3,.3]){const r=new THREE.Mesh(new THREE.TorusGeometry(.14,.035,6,14),mat(brass));r.position.set(x,1.06,.07);g.add(r);}
-  const step=box(3.0,.18,1.0,mat(stone));step.position.set(0,.09,.62);g.add(step);
+  const agedA=()=>new THREE.MeshStandardMaterial({color:0x4a3a28,roughness:.95});
+  const agedB=()=>new THREE.MeshStandardMaterial({color:0x574630,roughness:.95});
+  const patina=()=>new THREE.MeshStandardMaterial({color:0x6e684a,roughness:.75,metalness:.3});
+  const tile=()=>new THREE.MeshStandardMaterial({color:0x43423a,roughness:1});
+  const earth=()=>new THREE.MeshStandardMaterial({color:0x8f8266,roughness:1});
+  const base=()=>new THREE.MeshStandardMaterial({color:0x7d786c,roughness:1});
+  const moss=()=>new THREE.MeshStandardMaterial({color:0x5d6b45,roughness:1});
+  const iron=()=>new THREE.MeshStandardMaterial({color:0x35322c,roughness:.9,metalness:.25});
+  // 门枕石（带苔）
+  for(const x of[-1.36,1.36]){
+   const s=box(.4,.28,.5,mat(base));s.position.set(x,.14,.05);g.add(s);
+   const m=box(.42,.045,.3,mat(moss));m.position.set(x+.03,.3,-.02);g.add(m);
+  }
+  // 门柱（略外倾）与门楣（微塌）
+  for(const x of[-1.36,1.36]){const p=box(.26,2.24,.34,mat(agedA));p.position.set(x,1.4,0);p.rotation.z=x<0?-.012:.012;g.add(p);}
+  const lintel=box(3.2,.2,.34,mat(agedB));lintel.position.set(0,2.56,0);lintel.rotation.z=.012;g.add(lintel);
+  const eave=box(3.6,.1,.62,mat(tile));eave.position.set(0,2.72,.06);eave.rotation.z=.02;g.add(eave);
+  // 两扇门板：旧木拼板，色差错落
+  for(let i=0;i<10;i++){
+   const leaf=i<5?-1:1,k=i%5;
+   const b=box(.215,1.92,.09,mat(k%2?agedA:agedB));
+   b.position.set(leaf*(.14+k*.225),1.18,.1);g.add(b);
+  }
+  const seam=box(.05,1.92,.11,mat(dark));seam.position.set(0,1.18,.1);g.add(seam);
+  // 门闩铁条 + 泡钉
+  const bolt=box(2.3,.07,.04,mat(iron));bolt.position.set(0,1.5,.17);g.add(bolt);
+  for(const leaf of[-1,1])for(const px of[.34,.54])for(const py of[.92,1.22,1.5]){
+   const s=box(.05,.05,.03,mat(iron));s.position.set(leaf*px,py,.16);g.add(s);
+  }
+  // 锈铜环：左环端正，右环歪挂着
+  for(const x of[-.3,.3]){
+   const plate=cyl(.1,.1,.03,mat(patina),12);plate.rotation.x=Math.PI/2;plate.position.set(x,1.16,.16);g.add(plate);
+   const r=new THREE.Mesh(new THREE.TorusGeometry(.13,.032,6,14),mat(patina));
+   r.position.set(x,1.04,.18);if(x>0)r.rotation.z=.42;g.add(r);
+  }
+  // 褪色春联：左边还挂着，右边撕剩半截
+  const strip=box(.16,.95,.02,mat(()=>new THREE.MeshStandardMaterial({color:0xcfc2a0,roughness:.9})));
+  strip.position.set(-1.62,1.5,.12);g.add(strip);
+  const strip2=box(.16,.42,.02,mat(()=>new THREE.MeshStandardMaterial({color:0xbfb28e,roughness:.9})));
+  strip2.position.set(1.62,1.82,.12);g.add(strip2);
+  // 两侧断墙残段：夯土墙带石基、瓦压顶，墙头塌了一角还长着草
+  for(const side of[-1,1]){
+   const wx=side*2.55;
+   const f=box(1.3,.22,.34,mat(base));f.position.set(wx,.11,-.05);g.add(f);
+   const w=box(1.24,.78,.28,mat(earth));w.position.set(wx,.61,-.05);w.rotation.y=side*.06;g.add(w);
+   const cap=box(1.34,.08,.4,mat(tile));cap.position.set(wx,1.04,-.05);cap.rotation.z=side*.03;g.add(cap);
+   const broken=box(.34,.18,.28,mat(earth));broken.position.set(wx+side*.62,1.06,-.05);g.add(broken);
+   for(const gx of[-.4,.15]){
+    const t=box(.09,.14,.09,mat(straw));t.position.set(wx+side*gx,1.13,-.05+gx*.06);g.add(t);
+   }
+   const m=box(.5,.05,.2,mat(moss));m.position.set(wx-side*.35,.23,.08);g.add(m);
+  }
+  // 阶石：两块错缝旧石板，缝里长了苔
+  const s1=box(1.46,.15,.85,mat(stone));s1.position.set(-.76,.075,.55);g.add(s1);
+  const s2=box(1.46,.17,.85,mat(stone));s2.position.set(.76,.085,.55);g.add(s2);
+  const m1=box(.3,.045,.24,mat(moss));m1.position.set(-.2,.16,.85);g.add(m1);
+  const m2=box(.22,.04,.2,mat(moss));m2.position.set(1.1,.175,.3);g.add(m2);
  });
  window.__hotspots=hotspotGroup;
 }
@@ -697,7 +747,7 @@ function init(){
  // 调试钩子：?debug=1 时把场景暴露到 window，供探针 dump 场景图
  // 注意 riceMats 用函数取：模型是静态合批的，场景里没有 Rice_ 网格可数，
  // 「挂上生长着色器的材质数」才是稻子是否在场的真凭据。
- if(new URLSearchParams(location.search).has('debug')){window.__scene=scene;window.__camera=camera;window.__renderer=renderer;window.__cropUniforms=cropUniforms;window.__seasons=SEASONS;window.__riceMats=()=>riceMats.length;}
+ if(new URLSearchParams(location.search).has('debug')){window.__scene=scene;window.__camera=camera;window.__renderer=renderer;window.__cropUniforms=cropUniforms;window.__seasons=SEASONS;window.__riceMats=()=>riceMats.length;window.__controls=controls;}
 }
 function skyTexture(colors){
  const c=document.createElement('canvas');c.width=1024;c.height=768;const ctx=c.getContext('2d');

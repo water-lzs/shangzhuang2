@@ -28,6 +28,9 @@ body.farm-mode{display:block;background:#edf0e7;color:#243f33;min-height:100vh}
 .granary-btn{margin-left:auto;padding:5px 10px;font-size:10px}
 .detect-btn:hover:not(:disabled),.granary-btn:hover{background:#e8dfc2}
 .detect-btn:disabled{opacity:.45;cursor:not-allowed}
+.reset-btn{font-size:11px;padding:7px 12px;border:1px solid #c9a08a;background:#f5efdc;color:#8a5a44;border-radius:5px;cursor:pointer;margin-left:8px}
+.reset-btn:hover{background:#efe3cf}
+.reset-btn.arming{background:#a04a34;border-color:#a04a34;color:#fff3e0;font-weight:600}
 .granary-now{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:12px 0;border-bottom:1px solid #e4e5d5;font-size:12px}
 .granary-now strong{font:26px Georgia,serif;color:#9b773d}
 .granary-now strong small{font-size:12px}
