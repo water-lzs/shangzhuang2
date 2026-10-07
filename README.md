@@ -15,6 +15,7 @@
 ├─ three.core.js
 ├─ GLTFLoader.js 等 addon
 ├─ manifest.json  alignment.json  town-map.jpg  shangzhuang.jpg
+├─ v-*.jpg  p-*.jpg  s-*.jpg      ← 图鉴与作坊配图（24 张，根级）
 └─ .nojekyll
 ```
 
