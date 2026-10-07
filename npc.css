@@ -1,0 +1,55 @@
+/* 包 M3（第十一轮）· 镇上街坊页。配色与 sales.css 同源：镇上都是夜色纸墨金。 */
+#npc-root{position:relative;z-index:4;width:min(1120px,calc(100% - 40px));margin:110px auto 130px;color:#f8f0dc}
+#npc-root[hidden]{display:none}
+.npc-heading{margin-bottom:18px;position:relative}
+.npc-heading>span{color:#f0c86d;letter-spacing:.16em;font-size:13px}
+.npc-heading h1{font-family:"STKaiti","KaiTi",serif;font-size:clamp(30px,4vw,52px);margin:8px 0;letter-spacing:.06em}
+.npc-heading p{color:#d9d0bd;font-size:14px;max-width:44em;line-height:1.9;margin:0}
+.npc-heading .space-switch{position:absolute;top:6px;right:0;background:#2a2419;color:#f5ce75;border:1px solid #806c48;border-radius:9px;padding:9px 16px;cursor:pointer}
+.npc-heading .space-switch:hover{background:#4a3820;border-color:#f0c86d}
+
+.npc-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:14px 0}
+.npc-stats>div{background:#18160fbb;border:1px solid #d3aa5a66;border-radius:14px;box-shadow:0 12px 32px #0004;padding:14px}
+.npc-stats span,.npc-stats small{display:block;color:#bdb39d;font-size:12px}
+.npc-stats strong{display:block;color:#f5ce75;font-size:22px;margin:5px 0}
+.npc-stats small{line-height:1.6}
+
+.npc-actions{display:flex;align-items:center;gap:14px;margin:6px 0 16px}
+.npc-actions small{color:#b8ae97;font-size:12px;line-height:1.7}
+.npc-primary{background:#d7a94c;color:#20170a;border:0;border-radius:10px;padding:12px 22px;font-weight:bold;cursor:pointer;letter-spacing:.05em}
+.npc-primary:disabled{opacity:.4;cursor:not-allowed}
+
+.npc-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.npc-card{position:relative;background:linear-gradient(160deg,#18160fc9,#221d13c9);border:1px solid #d3aa5a55;border-radius:14px;box-shadow:0 12px 32px #0004;padding:16px;display:flex;flex-direction:column;gap:9px}
+.npc-card.talked{border-color:#806c4866;background:#1412099a}
+.npc-card.talked .npc-portrait{filter:saturate(.5) brightness(.85)}
+.npc-portrait{display:flex;align-items:center;gap:10px}
+.npc-portrait b{width:44px;height:56px;flex-shrink:0;background:#8f3e2e;color:#fff2d5;font:26px/56px "STKaiti","KaiTi",serif;text-align:center;border-radius:3px;outline:1px solid #a15e4e;outline-offset:3px}
+.npc-pips{display:flex;gap:5px}
+.npc-pips i{width:9px;height:9px;border-radius:50%;border:1px solid #8a7a52;background:transparent}
+.npc-pips i.on{background:#e8b956;border-color:#f0c86d;box-shadow:0 0 8px #e8b95680}
+.npc-card header h2{margin:0;font:22px "STKaiti","KaiTi",serif;letter-spacing:.05em}
+.npc-card header small{color:#bdb39d;font-size:12px}
+.npc-tier{display:flex;align-items:baseline;gap:8px;margin:0}
+.npc-tier b{color:#f5ce75;font:16px "STKaiti","KaiTi",serif}
+.npc-tier span{color:#bdb39d;font-size:12px}
+.npc-say{margin:0;padding:8px 0 8px 12px;border-left:2px solid #9f5140;font:14px/1.9 "STKaiti","KaiTi",serif;color:#efe3c6;min-height:66px}
+.npc-say em{color:#8f8875;font-style:normal;font-size:13px}
+.npc-hint{margin:0;color:#a89e86;font-size:12px}
+.npc-card button{margin-top:auto;background:#2a2419;color:#f7efd9;border:1px solid #806c48;border-radius:9px;padding:10px;cursor:pointer}
+.npc-card button:hover:not(:disabled){background:#4a3820;border-color:#f0c86d;color:#fff6df}
+.npc-card button:disabled{opacity:.45;cursor:not-allowed}
+
+.npc-favors{margin-top:18px;background:#18160fbb;border:1px solid #d3aa5a66;border-radius:14px;padding:18px;box-shadow:0 12px 32px #0004}
+.npc-favors h2{margin:0 0 12px;font-family:"STKaiti","KaiTi",serif;font-size:22px;color:#f5ce75;letter-spacing:.06em}
+.npc-favors ul{margin:0;padding-left:20px;color:#d8c9ac;font-size:13.5px;line-height:2.05}
+.npc-favors li+li{margin-top:4px}
+.npc-message{min-height:20px;margin-top:10px;color:#f3a77e;font-size:13px}
+
+@media(max-width:1000px){.npc-grid{grid-template-columns:repeat(2,1fr)}.npc-stats{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:760px){
+ #npc-root{width:calc(100% - 22px);margin-top:82px}
+ .npc-grid{grid-template-columns:1fr}
+ .npc-heading .space-switch{position:static;margin-top:10px}
+ .npc-say{min-height:0}
+}

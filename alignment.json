@@ -1,0 +1,105 @@
+{
+  "iteration": 4,
+  "width": 1200,
+  "height": 900,
+  "pixelRatio": 1,
+  "maxPixelRatio": 2,
+  "minQualityScale": 0.7,
+  "shadowSize": 256,
+  "fov": 50,
+  "grain": 7,
+  "ambientIntensity": 0.8,
+  "seasons": {
+    "spring": {
+      "sky": [
+        "#a3d3df",
+        "#f1ded3",
+        "#fff2cb"
+      ],
+      "camera": [
+        0,
+        4.1,
+        39
+      ],
+      "target": [
+        0,
+        8,
+        -60
+      ],
+      "density": 0.012,
+      "fog": "#e5edca",
+      "power": 1.4,
+      "cloudColor": "#edbab3",
+      "cloudAlpha": 0.32,
+      "glow": "#fff3b6cc"
+    },
+    "summer": {
+      "sky": [
+        "#269fd7",
+        "#83d9ef",
+        "#ecf6da"
+      ],
+      "camera": [
+        0,
+        4.1,
+        39
+      ],
+      "target": [
+        0,
+        8,
+        -60
+      ],
+      "density": 0.005,
+      "fog": "#c6e6ac",
+      "power": 1.4,
+      "cloudColor": "#f8fbeb",
+      "cloudAlpha": 0.35
+    },
+    "autumn": {
+      "sky": [
+        "#f2ad61",
+        "#ffd887",
+        "#ffe4ad"
+      ],
+      "camera": [
+        0,
+        4.1,
+        39
+      ],
+      "target": [
+        0,
+        8,
+        -60
+      ],
+      "density": 0.005,
+      "fog": "#ffe4ad",
+      "power": 1.4,
+      "cloudColor": "#e88a49",
+      "cloudAlpha": 0.55,
+      "glow": "#ffdd81cc"
+    },
+    "winter": {
+      "sky": [
+        "#7194a9",
+        "#b1c5cf",
+        "#dbe2df"
+      ],
+      "camera": [
+        0,
+        4.1,
+        39
+      ],
+      "target": [
+        0,
+        8,
+        -60
+      ],
+      "density": 0.012,
+      "fog": "#dbe2df",
+      "power": 1.4,
+      "cloudColor": "#6f8b9b",
+      "cloudAlpha": 0.35,
+      "glow": "#f6f1d7aa"
+    }
+  }
+}

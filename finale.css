@@ -1,0 +1,138 @@
+/* —— 包 K（第八轮）Q-9.13：四时终章 · 四维模糊描述 + 揭晓演出 ——
+   视觉沿用终章/图鉴的「夜色宣纸」体系：深褐宣纸底 + 金线描边 + 朱印点缀 + 楷宋字。
+   整场演出纯 CSS/SVG，不引视频。 */
+#ending-root .ending-heading p{color:#cdbfa2}
+
+/* ---------- 田页上的两处入口：资源栏的「乡评」+ 顶部的终章召唤 ---------- */
+.farm-resources .fin-whisper{color:#8b6f3e}
+.farm-resources .fin-whisper small{font-size:11px;color:#7d6a45}
+.finale-call{border:1px solid #b4462f;background:#8c2f22;color:#ffe4bd;border-radius:8px;padding:8px 14px;cursor:pointer;margin-top:8px;font:inherit;letter-spacing:.06em;animation:finGlow 2.6s ease-in-out infinite}
+.finale-call:hover{background:#a1392a}
+@keyframes finGlow{0%,100%{box-shadow:0 0 0 0 #b4462f00}50%{box-shadow:0 0 0 4px #b4462f33}}
+
+/* 沉浸层状态栏里的「四时心印」一行（同样是模糊话，不露数字） */
+#world-status .ws-whisper{color:#cbb78e;font-size:11px}
+#world-status .ws-whisper .ws-call{color:#ffd9a0;border-bottom:1px solid #ffd9a066;cursor:pointer}
+
+/* ---------- 四维心印：界面只给一句模糊话，不露数字 ---------- */
+.fin-dims{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:18px 0 22px}
+.fin-dim{position:relative;background:#1e1810e0;border:1px solid #a8844880;border-radius:12px;padding:18px 14px 16px;overflow:hidden}
+.fin-dim::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 88% 6%,#e1b95f22,transparent 62%);pointer-events:none}
+.fin-dim small{display:block;font-size:11px;letter-spacing:.2em;color:#a99a7d}
+.fin-dim p{position:relative;margin:12px 0 0;font:16px/1.75 KaiTi,serif;color:#f3e7c9}
+.fin-seal{position:absolute;right:10px;top:10px;width:25px;height:25px;display:grid;place-items:center;font:14px KaiTi,serif;color:#ffdfa0;background:#8c2f22;border-radius:4px;opacity:.8}
+
+/* ---------- 终章页的三种状态 ---------- */
+.fin-ask,.fin-wait,.fin-verdict{position:relative;background:#1b1710df;border:1px solid #c19b56aa;border-radius:12px;padding:22px}
+.fin-tag{display:inline-block;font-size:11px;letter-spacing:.16em;color:#f0c86d;border:1px solid #c19b5688;border-radius:999px;padding:3px 11px}
+.fin-ask h2,.fin-wait h2,.fin-verdict h2{font:clamp(21px,2.4vw,30px) KaiTi,serif;margin:13px 0 9px;color:#f7edd6}
+.fin-ask>p,.fin-wait>p{color:#cfc0a1;font-size:13px;line-height:1.95;margin:0}
+.fin-choices{display:grid;gap:10px;margin:18px 0 12px}
+.fin-choices button{display:grid;gap:5px;text-align:left;border:1px solid #8b7245;background:#241d13;color:#ecdcb8;border-radius:10px;padding:14px 16px;cursor:pointer;font-family:inherit;transition:border-color .2s,background .2s,transform .2s}
+.fin-choices button:hover{border-color:#e1b95f;background:#2f2517;transform:translateX(2px)}
+.fin-choices b{font:17px KaiTi,serif;color:#f6dda2;letter-spacing:.06em}
+.fin-choices span{font-size:12px;color:#bfb091;line-height:1.75}
+.fin-choices small{font-size:11px;color:#a2845a;letter-spacing:.08em}
+.fin-quiet{color:#9d8f76;font-size:12px;margin:8px 0 0;line-height:1.9}
+.fin-miss{margin:14px 0 0;padding-left:20px;color:#e0a383;font-size:12px;line-height:2}
+.fin-message{margin-top:14px;color:#f3a77e;font-size:12px;min-height:16px}
+.fin-verdict.tone-gold{border-color:#e1b95f;box-shadow:0 0 0 1px #e1b95f2e,0 12px 34px #00000055}
+.fin-verdict.tone-jade{border-color:#8fbf90}
+.fin-verdict.tone-silver{border-color:#b9c6d0}
+.fin-verdict.tone-ink{border-color:#6d6a63}
+.fin-verdict.tone-plain{border-color:#7c7364}
+.fin-verse{font:16px KaiTi,serif;color:#f0c86d;letter-spacing:.1em;margin:10px 0}
+.fin-brief{color:#cfc0a1;font-size:13px;line-height:2;margin:10px 0 0}
+.fin-seen{color:#9d8f76;font-size:12px;margin:10px 0 0}
+.fin-actions{margin-top:16px}
+
+/* ---------- 旧判定表（v7 及以前的存档，兼容保留） ---------- */
+.fin-legacy{margin-top:18px;background:#191510cc;border:1px dashed #7c6a49;border-radius:10px;padding:14px}
+.fin-legacy summary{cursor:pointer;color:#c8b48a;font-size:12px;letter-spacing:.08em}
+.fin-legacy table{width:100%;border-collapse:collapse;margin-top:10px;font-size:12px}
+.fin-legacy th,.fin-legacy td{border-bottom:1px solid #3a3021;padding:7px 6px;text-align:left;color:#b8a988}
+.fin-legacy th{color:#e0c58c;font-weight:400}
+.fin-legacy p{color:#9d8f76;font-size:11px;margin:9px 0 0;line-height:1.8}
+
+/* ---------- 揭晓演出：变暗 → 条形图 → 三十秒动态插画 ---------- */
+body.finale-open{overflow:hidden}
+#finale-reveal{position:fixed;inset:0;z-index:60;display:none}
+#finale-reveal.show{display:block}
+.fr-dim{position:absolute;inset:0;background:#0a0806;opacity:0;animation:frDim .9s ease forwards}
+@keyframes frDim{to{opacity:.88}}
+.fr-panel{position:relative;z-index:1;width:min(940px,calc(100% - 30px));max-height:calc(100dvh - 36px);overflow:auto;margin:18px auto;background:#171208f7;border:1px solid #a8844a;border-radius:14px;padding:26px 26px 18px;color:#f4ece0;animation:frRise .85s cubic-bezier(.2,.9,.2,1)}
+@keyframes frRise{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+.fr-head span{font-size:11px;letter-spacing:.2em;color:#e0be76}
+.fr-head h2{font:clamp(24px,3.2vw,40px) KaiTi,serif;margin:9px 0;color:#fbf2dc}
+.fr-verse{font:15px KaiTi,serif;color:#d9b66b;letter-spacing:.1em;margin:0}
+
+.fr-dims{display:grid;gap:11px;margin:20px 0 6px}
+.fr-dim-row{display:grid;grid-template-columns:54px minmax(110px,1fr) minmax(0,1.6fr);gap:13px;align-items:center}
+.fr-dim-row small{font-size:12px;color:#a99a7d;letter-spacing:.14em}
+.fr-bar{height:8px;background:#2c2418;border-radius:6px;overflow:hidden}
+.fr-bar i{display:block;height:100%;width:0;border-radius:6px;background:linear-gradient(90deg,#8c2f22,#e1b95f);transition:width 1.15s cubic-bezier(.2,.9,.2,1)}
+.fr-dim-row p{margin:0;font-size:12px;line-height:1.7;color:#e6d7b5}
+.fr-dim-row p span{display:block;color:#a5987d;font-size:11px;letter-spacing:.04em}
+
+.fr-stage{position:relative;margin:18px 0 8px;border:1px solid #4a3c26;border-radius:12px;overflow:hidden;background:#0d0b07}
+.fr-scene{position:relative;height:214px;overflow:hidden;--tone:#e1b95f}
+.fs-sky{position:absolute;inset:0;background:linear-gradient(#1b2334,#3a3a2a 62%,#4a3f22);opacity:.92}
+.fs-sun{position:absolute;left:72%;top:15%;width:56px;height:56px;border-radius:50%;background:radial-gradient(circle,#fff3cf,var(--tone) 70%,transparent);animation:fsPulse 6s ease-in-out infinite}
+@keyframes fsPulse{0%,100%{opacity:.72;transform:scale(1)}50%{opacity:1;transform:scale(1.07)}}
+.fs-hill{position:absolute;left:-6%;right:-6%;bottom:34%;height:72px;background:#2b2f22;clip-path:polygon(0 100%,14% 42%,30% 74%,48% 30%,66% 68%,84% 38%,100% 76%,100% 100%)}
+.fs-hill.far{bottom:41%;opacity:.5;background:#3a3b2c;transform:scaleY(.82)}
+.fs-field{position:absolute;left:0;right:0;bottom:0;height:38%;background:repeating-linear-gradient(96deg,#7a6828 0 4px,#5c4d1e 4px 9px)}
+.fs-field::after{content:'';position:absolute;inset:0;background:linear-gradient(#0000,#00000066)}
+.fs-rice{position:absolute;bottom:30%;left:calc(5% + var(--i) * 7.7%);width:2px;height:34px;background:linear-gradient(#e6cf7a,#8d7a2e);transform-origin:bottom center;animation:fsSway 3.4s ease-in-out infinite;animation-delay:calc(var(--i) * .17s)}
+.fs-rice::before{content:'';position:absolute;left:50%;top:-6px;transform:translateX(-50%);width:5px;height:11px;border-radius:50% 50% 40% 40%;background:#f0dd9a}
+@keyframes fsSway{0%,100%{transform:rotate(-3.5deg)}50%{transform:rotate(3.5deg)}}
+.fs-actor{position:absolute;left:18%;bottom:30%;width:13px;height:30px;background:#141008;border-radius:7px 7px 3px 3px}
+.fs-actor::before{content:'';position:absolute;left:50%;top:-11px;transform:translateX(-50%);width:11px;height:11px;border-radius:50%;background:#141008}
+.fs-actor::after{content:'';position:absolute;left:50%;top:-15px;transform:translateX(-50%);width:0;height:0;border-left:9px solid transparent;border-right:9px solid transparent;border-bottom:5px solid #2a2114}
+
+/* 四种结局的色调（同一套 CSS 场景换配色，不新增素材） */
+.tone-jade .fr-scene{--tone:#a9d58e}
+.tone-jade .fs-sky{background:linear-gradient(#c9d8cf,#8fae95 60%,#5d7a5f)}
+.tone-jade .fs-hill{background:#3f5142}
+.tone-jade .fs-hill.far{background:#5d7563}
+.tone-jade .fs-field{background:repeating-linear-gradient(96deg,#6f8a52 0 4px,#4d6338 4px 9px)}
+.tone-jade .fs-sun{background:radial-gradient(circle,#f4ffe9,#bcd9a4 70%,transparent);opacity:.55}
+.tone-jade .fs-actor{background:#1d2a20;border-radius:7px}
+.tone-silver .fr-scene{--tone:#d8e8ef}
+.tone-silver .fs-sky{background:linear-gradient(#e8eff4,#b9c6d0 60%,#8794a1)}
+.tone-silver .fs-hill{background:#8d9aa6}
+.tone-silver .fs-hill.far{background:#aab6c1}
+.tone-silver .fs-field{background:repeating-linear-gradient(96deg,#a8b4bd 0 4px,#7d8891 4px 9px)}
+.tone-silver .fs-sun{background:radial-gradient(circle,#fff,#cdd8e2 70%,transparent)}
+.tone-silver .fs-actor{background:#3b444d}
+.tone-silver .fs-rice{background:linear-gradient(#f2f7fa,#9fadba)}
+.tone-silver .fs-rice::before{background:#fff}
+.tone-ink .fr-scene{--tone:#8e8474}
+.tone-ink .fs-sky{background:linear-gradient(#12100c,#26221a 60%,#332c1c)}
+.tone-ink .fs-sun{opacity:.26;background:radial-gradient(circle,#9a9186,#4a453c 70%,transparent)}
+.tone-ink .fs-hill{background:#1c1a15}
+.tone-ink .fs-hill.far{background:#242117}
+.tone-ink .fs-field{background:repeating-linear-gradient(96deg,#3a3323 0 4px,#262116 4px 9px)}
+.tone-ink .fs-rice{background:linear-gradient(#5a5334,#2f2a1b)}
+.tone-ink .fs-rice::before{background:#6a6142}
+.tone-plain .fr-scene{--tone:#a99a7d}
+.tone-plain .fs-sky{background:linear-gradient(#232019,#38332a 60%,#413a2b);opacity:.88}
+.tone-plain .fs-sun{opacity:.34}
+.tone-plain .fs-field{background:repeating-linear-gradient(96deg,#4e452c 0 4px,#332d1e 4px 9px)}
+.tone-plain .fr-bar i{background:linear-gradient(90deg,#5c5240,#a99a7d)}
+
+.fr-lines{position:absolute;left:0;right:0;bottom:0;margin:0;padding:14px 20px 12px;list-style:none;background:linear-gradient(#0000,#000000b0);min-height:92px}
+.fr-lines li{font:15px/2.1 KaiTi,serif;color:#f2e4c4;opacity:0;transform:translateY(9px);transition:opacity .75s ease,transform .75s ease;text-shadow:0 1px 8px #000}
+.fr-lines li.in{opacity:1;transform:none}
+.fr-foot{display:flex;gap:10px;justify-content:flex-end;margin-top:14px}
+.fr-foot button{border:1px solid #a8844a;background:#241d13;color:#ecdcb8;border-radius:8px;padding:9px 15px;font:12px inherit;cursor:pointer;transition:background .2s,border-color .2s}
+.fr-foot button:hover{background:#332718;border-color:#e1b95f}
+
+@media(max-width:760px){
+  .fin-dims{grid-template-columns:repeat(2,1fr)}
+  .fr-panel{padding:20px 16px 14px}
+  .fr-dim-row{grid-template-columns:44px 1fr}
+  .fr-dim-row p{grid-column:1/-1}
+  .fr-scene{height:168px}
+  .fr-lines li{font-size:13px;line-height:1.9}
+}

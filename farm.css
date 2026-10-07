@@ -1,0 +1,156 @@
+body.farm-mode{display:block;background:#edf0e7;color:#243f33;min-height:100vh}
+.farm-mode #app{width:100%;height:auto;min-height:100vh;overflow:visible;container-type:normal;padding:340px 28px 86px;background:linear-gradient(#edf0e700 280px,#edf0e7 420px)}
+.farm-mode #viewport{height:390px;inset:0 0 auto;z-index:0;overflow:hidden}.farm-mode #viewport canvas{width:100%!important;height:100%!important}
+.farm-mode .wash{display:none}.farm-mode .topbar{top:22px;left:30px;right:30px;z-index:3;align-items:center}
+.farm-mode .brand{font-size:23px;gap:12px;letter-spacing:2px}.farm-mode .brand small{font-size:7px;letter-spacing:2px}.farm-mode .seal{width:30px;height:40px;font-size:15px;line-height:16px;padding:4px 0}
+.farm-mode .top-right{gap:14px}.farm-mode .performance{font-size:10px;padding:8px 12px}.farm-mode .performance strong{font-size:16px}.farm-mode .top-right button{font-size:11px;padding:8px;display:block}.farm-mode #toggle-details{display:none}
+.farm-mode #content,.farm-mode #asset-notice,.farm-mode .season-side{display:none}.farm-mode #toast{font-size:12px;top:80px;z-index:8}.farm-mode .help{display:none}
+#farm-root{position:relative;z-index:2;max-width:1240px;margin:0 auto;pointer-events:none}#farm-root button,#farm-root input,#farm-root details{pointer-events:auto}
+.farm-heading{position:absolute;top:-230px;left:0;text-shadow:0 1px 10px #fff}.farm-heading>span{font-size:11px;letter-spacing:3px}.farm-heading h1{font:32px KaiTi,serif;letter-spacing:3px;margin:12px 0}.farm-heading p{font-size:12px;letter-spacing:1px}
+.farm-stats{display:grid;grid-template-columns:repeat(4,1fr);background:#fffdf3f0;border:1px solid #bfb99780;box-shadow:0 6px 22px #314f3d0c;border-radius:9px;margin-bottom:16px;overflow:hidden}.farm-stats>div{padding:16px 22px;border-right:1px solid #dddcc8}.farm-stats>div:last-child{border:0}.farm-stats span{display:block;font-size:12px;color:#68756b}.farm-stats strong{display:block;font-size:24px;font-weight:500;margin:7px 0}.farm-stats small{font-size:10px;color:#87917d}
+.farm-columns{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(310px,1fr);gap:18px}.farm-card{background:#fffdf6;border:1px solid #d4d4ba;border-radius:9px;padding:22px;pointer-events:auto;box-shadow:0 5px 20px #293d2410}.farm-card-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:16px}.farm-card h2{font:25px KaiTi,serif;margin:0}.farm-card-head>span{font-size:11px;color:#77826d}.farm-resources{display:flex;gap:14px;flex-wrap:wrap;font-size:11px;margin-bottom:20px;color:#677360}.farm-resources b{font-weight:600;color:#294a33}
+.farm-plots{display:grid;grid-template-columns:repeat(5,1fr);gap:9px}.farm-plots button{position:relative;min-height:83px;text-align:left;border:1px solid #a5b38e;background:linear-gradient(135deg,#e2eac6,#cadcb1);border-radius:5px;padding:10px;color:#345039}.farm-plots button small{font-size:9px;display:block}.farm-plots button span{font:17px KaiTi,serif;display:block;margin-top:14px}.farm-plots button i{position:absolute;right:7px;bottom:8px;font:24px KaiTi,serif;opacity:.25}.farm-plots button:disabled{opacity:1;cursor:default;background:#dce6c0}.farm-plots button:not(:disabled):hover{border-color:#59773b;background:#d5e6b1}
+.farm-hint{font-size:11px;line-height:1.7;color:#7c866f}.plant-control{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:16px 0}.plant-control label{font-size:12px}.plant-control input{width:55px;padding:9px 5px;border:1px solid #bbc4a7;border-radius:3px;font:14px inherit}.farm-card button{font-family:inherit}.plant-control button,.farm-reset button{border:1px solid #b2bfa0;background:#f5f7eb;color:#37583a;border-radius:4px;padding:10px 13px;font-size:12px}.farm-primary{width:100%;border:1px solid #365b42;background:#365b42;color:#fff7df;border-radius:5px;padding:14px;letter-spacing:2px;font-size:14px;margin-top:10px}.farm-primary:hover:enabled{background:#476b43}.farm-primary:disabled{opacity:.45;cursor:default}
+.growth-track{height:7px;background:#e0e6d2;border-radius:5px;overflow:hidden;margin-top:20px}.growth-track span{display:block;background:#86a357;height:100%}.plot-card>p{font-size:12px;line-height:1.7}.farm-kicker{font-size:10px;letter-spacing:2px;color:#9b783c;margin-bottom:10px}.farm-event h2{font-size:24px}.farm-event>p{font-size:11px;line-height:1.7;color:#78806b}.event-choices{display:grid;gap:8px}.event-choices button{display:flex;align-items:center;justify-content:space-between;gap:12px;text-align:left;border:1px solid #b7c3a5;border-radius:5px;background:#f6f8ec;padding:12px 13px;color:#2e4c36}.event-choices button:hover{border-color:#8d9a4d;background:#edf2d5}.event-choices b{font-size:13px}.event-choices span{font-size:11px;color:#788566;line-height:1.6;text-align:right}
+.yield-preview>span{font-size:11px;color:#8a927d}.yield-preview>strong{font:38px Georgia,serif;display:block;color:#9b773d;margin:12px 0}.yield-preview strong small{font-size:14px}.yield-preview p{font-size:12px;line-height:1.8}.farm-log{font-size:11px;line-height:1.8;color:#7d8576;padding-left:18px;border-top:1px solid #e4e5d5;padding-top:12px;margin-bottom:7px}.farm-message{min-height:18px;font-size:11px;line-height:1.7;color:#97552b}.farm-rules{font-size:11px;line-height:1.8;color:#6f7b69;margin-top:10px}.farm-rules summary{cursor:pointer;color:#526748}.farm-reset{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:16px;font-size:11px}.farm-reset button{font-size:10px;padding:6px 9px}
+.farm-mode footer{position:relative;left:auto;right:auto;bottom:auto;margin:24px auto 0;justify-content:center}.farm-mode nav{padding:5px;background:#fffc;border-radius:5px}.farm-mode nav button{padding:8px 20px;gap:8px;opacity:1}.farm-mode nav button b{font-size:20px}.farm-mode nav button span{font-size:11px;letter-spacing:1px}.farm-mode nav button:disabled{cursor:default}.farm-mode .footer-caption{display:none}
+.farm-mode[data-season=autumn] .farm-plots button{background:#f0db9d;border-color:#cdb36d}.farm-mode[data-season=winter] .farm-plots button{background:#dde5e4;border-color:#b5c5c7}
+@media(min-width:1400px){.farm-mode #app{padding-top:410px}.farm-mode #viewport{height:460px}.farm-heading{top:-290px}}
+@media(max-width:780px){.farm-mode #app{padding:305px 15px 25px}.farm-mode #viewport{height:345px}.farm-mode .topbar{left:18px;right:18px;top:19px}.farm-mode .brand{font-size:18px}.farm-mode .brand small{font-size:6px}.farm-mode .top-right{gap:6px}.farm-mode .top-right button{display:none}.farm-heading{top:-205px}.farm-heading h1{font-size:28px}.farm-columns{grid-template-columns:1fr}.farm-stats>div{padding:12px 9px}.farm-stats strong{font-size:18px}.farm-stats span{font-size:10px}.farm-stats small{font-size:9px;line-height:1.5;display:block}.farm-card{padding:17px}.farm-plots{gap:6px}.farm-plots button{padding:8px 6px;min-height:75px}.farm-resources{gap:11px}.farm-mode nav button{padding:7px 13px}}
+.space-switch{border:1px solid #d8ad5b;background:#5f4825;color:#ffe9a8;border-radius:8px;padding:8px 14px;cursor:pointer;margin-top:8px}
+
+/* ---- 隐性反馈：模糊描述模式 / 粮仓 / 检测 ---- */
+.farm-stats.fuzzy strong{display:block;font-size:13px;font-weight:600;line-height:1.7;margin:6px 0 4px;color:#4c5a48;font-family:'Microsoft YaHei',sans-serif}
+.farm-stats.debug strong{color:#8a6d2f}
+.muted{color:#838b7a!important;font-size:12px!important;line-height:1.8}
+.debug-note{display:block;margin-top:8px;font-size:10px;color:#a08a52;border-top:1px dashed #ddd0a8;padding-top:6px}
+.detect-btn,.granary-btn{font-size:11px;padding:7px 12px;border:1px solid #b5a173;background:#f5efdc;color:#3f5540;border-radius:5px;cursor:pointer;margin-left:8px}
+.granary-btn{margin-left:auto;padding:5px 10px;font-size:10px}
+.detect-btn:hover:not(:disabled),.granary-btn:hover{background:#e8dfc2}
+.detect-btn:disabled{opacity:.45;cursor:not-allowed}
+.granary-now{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:12px 0;border-bottom:1px solid #e4e5d5;font-size:12px}
+.granary-now strong{font:26px Georgia,serif;color:#9b773d}
+.granary-now strong small{font-size:12px}
+.granary-history{list-style:none;padding:10px 0;font-size:12px;line-height:2}
+.granary-history li{display:flex;align-items:center;gap:10px;border-bottom:1px dashed #e4e5d5;padding:4px 0}
+.granary-history li b{margin-left:auto;color:#7d6136}
+.q-chip{display:inline-block;width:15px;height:15px;border-radius:50%;border:1px solid #00000022;cursor:help;vertical-align:-2px}
+.q-gold{background:radial-gradient(circle at 35% 30%,#ffe9a3,#d4a12f 70%,#a97a1b)}
+.q-silver{background:radial-gradient(circle at 35% 30%,#f6f8fa,#b9bfc4 70%,#8d949a)}
+.q-bronze{background:radial-gradient(circle at 35% 30%,#e3b183,#a9713f 70%,#7d4f28)}
+.q-gray{background:radial-gradient(circle at 35% 30%,#d8d8d2,#8b8b84 70%,#5f5f5a)}
+.detect-panel{position:fixed;top:74px;left:50%;transform:translate(-50%,-12px);z-index:60;padding:16px 22px;background:#1f3226f2;color:#f2ecd6;border:1px solid #c8ad72;border-radius:9px;box-shadow:0 14px 44px #0d1c1455;font:13px 'Microsoft YaHei';opacity:0;pointer-events:none;transition:opacity .35s,transform .35s}
+.detect-panel.show{opacity:1;transform:translate(-50%,0)}
+.detect-panel b{display:block;font-size:14px;color:#f0d79c;margin-bottom:9px;letter-spacing:1px}
+.detect-panel div{display:flex;gap:16px;justify-content:space-between;line-height:2}
+.detect-panel div span{color:#b9c8b2}
+.detect-panel div strong{color:#ffe6a8}
+.detect-panel small{display:block;margin-top:10px;font-size:10px;color:#9aa895}
+
+/* ---- 包 O：季末结算单 ---- */
+.settle-list{list-style:none;padding:8px 0;font-size:12px;line-height:2.1}
+.settle-list li{display:flex;justify-content:space-between;border-bottom:1px dashed #e4e5d5;padding:2px 0}
+.settle-list li span{color:#6b7566}
+.settle-list b.in{color:#8a6d2f}
+.settle-list b.out{color:#a8534a}
+.settle-net{display:flex;justify-content:space-between;align-items:baseline;padding:10px 0;border-top:2px solid #d9d3bb;margin-top:4px}
+.settle-net span{font-size:12px;color:#4c5a48}
+.settle-net strong{font:20px Georgia,serif}
+.settle-net strong.in{color:#8a6d2f}
+.settle-net strong.out{color:#a8534a}
+
+/* ---- 包 P：抉择代价 / 买种 / 雇短工 ---- */
+.farm-tools{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0 12px}
+.tool-btn{font-size:11px;padding:8px 12px;border:1px solid #b5a173;background:#f5efdc;color:#3f5540;border-radius:5px;cursor:pointer}
+.tool-btn:hover:not(:disabled){background:#e8dfc2}
+.tool-btn:disabled{opacity:.45;cursor:not-allowed}
+.event-cost{display:block;margin-top:7px;padding-top:7px;border-top:1px dashed #b9a173;font-size:11px;line-height:1.65;color:#8a7448}
+.event-choices button:disabled .event-cost{color:#a5867c}
+.plant-control input:disabled{opacity:.5}
+
+/* ---- 包 B / Q-9.14：稻种选择器 · 生长等待 · 年景 · 家业升级面板 ---- */
+.seed-picker{display:grid;grid-template-columns:repeat(auto-fill,minmax(152px,1fr));gap:7px;margin:12px 0 4px}
+.seed-chip{display:flex;flex-direction:column;gap:2px;text-align:left;border:1px solid #b7c3a5;background:#f6f8ec;border-radius:5px;padding:8px 10px;color:#2e4c36;cursor:pointer;font-family:inherit}
+.seed-chip b{font:16px KaiTi,serif}
+.seed-chip span{font-size:10px;color:#788566;line-height:1.5}
+.seed-chip.on{border-color:#365b42;background:#e6f0d4;box-shadow:inset 0 0 0 1px #365b42}
+.seed-chip:hover{border-color:#8d9a4d}
+.growth-line{font-size:12px;color:#677360;margin:6px 0 0}
+.omen-chip{color:#8b5a2b}
+.omen-event{border-color:#c9a76a!important;background:#fdf8ea!important}
+.upgrade-panel{margin-top:16px;border-top:1px dashed #c3cbb0;padding-top:12px}
+.upgrade-panel summary{font:19px KaiTi,serif;cursor:pointer;color:#2f4f38}
+.upgrade-panel>p{margin-top:10px}
+.upgrade-row{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:9px 0;border-bottom:1px dotted #d8ddc9}
+.upgrade-row>div{display:flex;flex-direction:column;gap:2px}
+.upgrade-row b{font-size:11px;color:#3b5c40;letter-spacing:1px}
+.upgrade-row span{font:16px KaiTi,serif;color:#2f4f38}
+.upgrade-row small{font-size:10px;color:#7c866f}
+.upgrade-row button{border:1px solid #b2bfa0;background:#f5f7eb;color:#37583a;border-radius:4px;padding:8px 11px;font-size:11px;font-family:inherit;white-space:nowrap}
+.upgrade-row button:disabled{opacity:.55;cursor:default}
+.upgrade-row.done{opacity:.7}
+.upgrade-max{font-size:11px;color:#7c866f;font-style:normal}
+.farm-plots button small{color:#6d7c62}
+
+/* ================= 包 J1（第六轮）· 节气倒计时 · 限时差事 · 随机事件 · 声望 ================= */
+/* —— 节气倒计时条：朱红渐空，最后一日闪烁，过窗口转暗红警示 —— */
+.term-bar{background:#fffdf6;border:1px solid #d9cfa8;border-left:4px solid #b4462f;border-radius:9px;padding:13px 20px 11px;margin-bottom:14px;box-shadow:0 5px 18px #293d2410}
+.term-head{display:flex;align-items:baseline;gap:12px;margin-bottom:9px}
+.term-head b{font:20px KaiTi,serif;letter-spacing:2px;color:#8d3a26}
+.term-head span{margin-left:auto;font-size:11px;color:#8a7a62}
+.term-track{height:8px;background:#efe7d2;border-radius:5px;overflow:hidden}
+.term-track span{display:block;height:100%;background:linear-gradient(90deg,#c95b3c,#a8341f);transition:width .8s ease}
+.term-say{margin:8px 0 0;font:13px KaiTi,serif;color:#7b6a52;letter-spacing:1px}
+.term-say em{font-style:normal;font-size:11px;color:#a3947c;font-family:'Microsoft YaHei',sans-serif}
+.term-bar.urgent{border-left-color:#c0271a;animation:termPulse 1.1s ease-in-out infinite}
+.term-bar.urgent .term-track span{background:linear-gradient(90deg,#e0574a,#b71c0c)}
+@keyframes termPulse{0%,100%{box-shadow:0 5px 18px #293d2410}50%{box-shadow:0 5px 22px #c0271a55}}
+.term-bar.over{border-left-color:#6b6257;background:#f4f1ea}
+.term-bar.over .term-track span{background:linear-gradient(90deg,#8b8073,#5f574c)}
+.term-bar.over .term-head b{color:#5f574c}
+/* —— 限时差事卡：朱印风「剩 N 日」标签 —— */
+.errand-board{margin-bottom:16px}
+.errand-card{border:1px solid #e0d3b6;background:#fffbef;border-radius:7px;padding:14px 15px;margin-bottom:10px;position:relative}
+.errand-card.urgent{border-color:#d9a08c;background:#fff6f0}
+.errand-card header{display:flex;align-items:center;gap:10px}
+.errand-card h3{font:19px KaiTi,serif;margin:0;letter-spacing:1px;color:#3d5340}
+.errand-days{margin-left:auto;font-size:10px;letter-spacing:1px;color:#fff4e2;background:#a8341f;border-radius:3px;padding:3px 8px;white-space:nowrap}
+.errand-card.urgent .errand-days{background:#c0271a;animation:termPulse 1.1s ease-in-out infinite}
+.errand-card>p{font-size:11px;line-height:1.8;color:#78806b;margin:9px 0 10px}
+.errand-need{display:grid;grid-template-columns:auto 1fr;gap:4px 10px;margin:0 0 12px;font-size:11px}
+.errand-need dt{color:#9b8a6c;white-space:nowrap}
+.errand-need dd{margin:0;color:#4d5c4a;line-height:1.6}
+.errand-need dd.bad{color:#a8341f}
+.errand-acts{display:flex;gap:8px;align-items:center}
+.errand-acts .farm-primary{margin:0;flex:1;padding:11px;font-size:12px;letter-spacing:1px}
+.errand-giveup{border:1px solid #cdc3ac;background:#f6f3e9;color:#7a7263;border-radius:5px;padding:11px 14px;font-size:11px;font-family:inherit;cursor:pointer}
+.errand-giveup:hover{background:#ede8da;color:#5f574c}
+/* —— 随机事件：天灾按压条 —— */
+.disaster-event{border-color:#e2b3a3!important;background:#fff8f4!important}
+.disaster-game{margin:14px 0 10px}
+.disaster-game .dg-track{height:14px;background:#f0dcd3;border-radius:7px;overflow:hidden;border:1px solid #e0c2b5}
+.disaster-game .dg-track span{display:block;height:100%;background:linear-gradient(90deg,#e0733f,#b83a17);transition:width .08s linear}
+.dg-row{display:flex;align-items:baseline;gap:6px;margin:9px 0}
+.dg-count{font:24px Georgia,serif;color:#a8341f;min-width:30px}
+.dg-row small{font-size:10px;color:#a3947c}
+.dg-timer{margin-left:auto;font-size:11px;color:#8a7a62;font-variant-numeric:tabular-nums}
+.dg-hit{width:100%;border:1px solid #a8341f;background:#b4462f;color:#fff4e2;border-radius:6px;padding:16px;font:17px KaiTi,serif;letter-spacing:3px;cursor:pointer;user-select:none;font-family:inherit}
+.dg-hit:hover:not(:disabled){background:#c95b3c}
+.dg-hit:active:not(:disabled){transform:translateY(1px);background:#9c2f1c}
+.dg-hit:disabled{opacity:.6;cursor:default}
+.dg-hit.arming{background:#8d2a14;box-shadow:0 0 0 3px #b4462f33 inset}
+/* —— 人祸 / 奇遇 —— */
+.choice-event{border-color:#dcd0ae!important;background:#fffdf3!important}
+.fortune-event{border-color:#c3d2a4!important;background:#fbfdf1!important}
+.fortune-event .farm-kicker{color:#5e7a3a}
+.event-cost{display:block;font-size:10px;color:#8e9683;line-height:1.6;margin-top:4px}
+.ev-queue{display:block;margin-top:10px;font-size:10px;color:#a3947c;letter-spacing:1px}
+.farm-resources small{font-size:9px;color:#98a08c;margin-left:2px}
+@media(max-width:780px){
+ .term-bar{padding:11px 14px 9px}
+ .term-head b{font-size:17px}
+ .term-head span{font-size:10px}
+ .errand-need{grid-template-columns:1fr;gap:1px}
+ .errand-need dt{margin-top:5px;color:#a3947c}
+ .dg-hit{padding:14px;font-size:15px;letter-spacing:2px}
+}

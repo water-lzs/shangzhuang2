@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>穿越京西稻 · 四时御田</title><link rel="icon" href="data:,"><link rel="stylesheet" href="./style.css"><link rel="stylesheet" href="./farm.css"><link rel="stylesheet" href="./processing.css"><link rel="stylesheet" href="./sales.css"><link rel="stylesheet" href="./story.css"><link rel="stylesheet" href="./variety.css"><link rel="stylesheet" href="./social.css"><link rel="stylesheet" href="./ending.css"><link rel="stylesheet" href="./finale.css"><link rel="stylesheet" href="./npc.css"><link rel="stylesheet" href="./slot.css"><link rel="stylesheet" href="./immersive.css"><script type="importmap">{"imports":{"three":"./three.module.js","three/addons/":"./"}}</script></head>
+<body class="farm-mode" data-season="spring"><main id="app"><div id="viewport" aria-label="Three.js 场景视口"></div><div id="space-transition" aria-hidden="true"></div><div class="wash"></div>
+<header class="topbar"><a class="brand" href="./?season=spring"><span class="seal">御<br>稻</span><span>穿越京西稻<small>CHUAN YUE JING XI DAO</small></span></a><div class="top-right"><span class="chapter">四时有序 · 一稻千年</span><div class="performance"><i></i><strong id="fps">—</strong><span>FPS</span></div><button id="toggle-details">展开面板</button><button id="reset-view" title="恢复默认镜头">重置视角 ↺</button></div></header>
+<aside id="system-panel" aria-label="京西稻贡米系统"></aside><div class="season-side"><span id="season-number">壹</span><div></div><p id="season-note">春生 · 万物有时</p></div>
+<div id="activity-tabs" role="tablist" aria-label="产业切换"><button role="tab" data-activity="farm">一产 · 御田</button><button role="tab" data-activity="processing">二产 · 作坊</button><button role="tab" data-activity="sales">三产 · 交易</button><button role="tab" data-activity="npc">镇上 · 街坊</button><button role="tab" data-activity="variety">御贡图鉴</button><button role="tab" data-activity="social">社交认养</button><button role="tab" data-activity="ending">四时终章</button></div><section id="processing-root" aria-label="二产加工作坊" hidden></section><section id="sales-root" aria-label="三产销售玩法" hidden></section><section id="npc-root" aria-label="镇上街坊" hidden></section><section id="variety-root" aria-label="御贡图鉴" hidden></section><section id="social-root" aria-label="社交认养" hidden></section><section id="ending-root" aria-label="结局判定" hidden></section><section id="farm-root" aria-label="御田种植玩法"></section><section id="content" aria-live="polite"></section>
+<aside id="asset-notice" role="status"><span class="notice-dot"></span><span id="asset-message">正在检查模型资产…</span></aside>
+<div id="toast" role="status"></div>
+<footer><div class="footer-caption"><span class="tiny-line"></span><span id="view-description">京西御田 · 春季主菜单</span><small id="render-mode">WebGL</small></div><nav aria-label="季节与界面"><button data-season="spring"><b>春</b><span>主菜单</span></button><button data-season="summer"><b>夏</b><span>种植</span></button><button data-season="autumn"><b>秋</b><span>加工</span></button><button data-season="winter"><b>冬</b><span>图鉴</span></button></nav><div class="help">拖动旋转 · 滚轮缩放<small>一产种植 → 二产加工 → 三产文旅</small></div></footer></main><script type="module" src="./app.js"></script><div id="boot-guard" hidden>
+  <div class="bg-card">
+    <span class="bg-seal">御<br>稻</span>
+    <h1>这一版没部署全</h1>
+    <p>页面骨架到了，但游戏脚本没能跑起来。缺的是下面这些文件：</p>
+    <ul id="bg-missing"></ul>
+    <p class="bg-hint">把 <b>_flat_build/</b> 里的<b>全部</b>文件（或解压 <b>_flat_build.zip</b>）一次性覆盖上传到仓库根目录，等 1~2 分钟再刷新。<br>注意：只传「改过的那几个」会留下旧文件互相打架，务必全量覆盖。</p>
+    <button id="bg-retry" type="button">重新检查</button>
+  </div>
+</div>
+<script>
+(function(){
+  // 检查清单不写死：从页面自己的 importmap 推导 three / addons 的实际路径，
+  // 再读 three 源文件、看它自己 import 了谁（min 版会额外 import three.core.js）。
+  // 这样源码树（vendor/…）和拍平包（根级 …）都能正确自检、不误报。
+  var threeURL=null,addonsBase=null;
+  try{
+    var map=JSON.parse(document.querySelector('script[type="importmap"]').textContent).imports||{};
+    threeURL=map['three']||null;addonsBase=map['three/addons/']||null;
+  }catch(e){}
+  var files=['./app.js','./farm-ui.js','./immersive.js','./tech-engine.js','./event-engine.js','./hotspot-engine.js','./finale-engine.js','./finale-ui.js','./finale.css','./npc-engine.js','./npc-ui.js','./npc.css','./storage.js','./slot-ui.js','./slot.css','./granary.js','./textures.js','./alignment.json','./style.css'];
+  if(threeURL)files.push(threeURL);
+  if(addonsBase){
+    // 拍平包把 addons 拍到了根级（three/addons/ → ./），源码树则保留 loaders/ 子目录
+    files.push(/^\.\/?$/.test(addonsBase)?addonsBase+'GLTFLoader.js':addonsBase+'loaders/GLTFLoader.js');
+  }
+  var guard=document.getElementById('boot-guard'),list=document.getElementById('bg-missing');
+  function show(items){
+    if(!guard||!list)return;
+    list.innerHTML=items.map(function(f){return '<li><code>'+f+'</code></li>';}).join('');
+    guard.hidden=false;document.body.dataset.boot='failed';
+  }
+  function ok(){
+    if(guard)guard.hidden=true;
+    if(document.body.dataset.boot!=='failed')document.body.dataset.boot='ok';
+  }
+  // 把绝对地址显示成「相对本页的路径」，玩家/我一眼能对上仓库里的文件
+  function short(u){
+    try{
+      var p=new URL(u,location.href).pathname,base=location.pathname.replace(/[^/]*$/,'');
+      return p.indexOf(base)===0?p.slice(base.length):p.replace(/^\//,'');
+    }catch(e){return u;}
+  }
+  function scanDeps(missing){
+    // three 源文件自己声明的同目录依赖（如 min 版 import 的 three.core.js）
+    if(!threeURL)return Promise.resolve(missing);
+    return fetch(threeURL,{cache:'no-store'}).then(function(r){return r.ok?r.text():'';}).then(function(txt){
+      var deps=[],re=/(?:from|import)\s*["']([^"']+\.js)["']/g,m;
+      while((m=re.exec(txt)))if(!/^https?:|^\.\.\//.test(m[1]))deps.push(m[1]);
+      var urls=deps.map(function(d){return new URL(d,new URL(threeURL,location.href)).href;});
+      return Promise.all(urls.map(function(u){return fetch(u,{method:'GET',cache:'no-store'}).then(function(r){return {u:u,ok:r.ok};}).catch(function(){return {u:u,ok:false};});}))
+        .then(function(ds){ds.forEach(function(d){if(!d.ok&&missing.indexOf(short(d.u))<0)missing.push(short(d.u));});return missing;});
+    }).catch(function(){return missing;});
+  }
+  // 停在档位界面不算「没部署全」：脚本全都在，只是等你选一个档位。
+  function settled(){return !!window.__JINGXI_BOOTED||!!window.__JINGXI_SLOT_PICKER;}
+  function check(){
+    if(settled()){ok();return;}
+    Promise.all(files.map(function(f){
+      return fetch(f,{cache:'no-store'}).then(function(r){return {f:short(f),ok:r.ok};}).catch(function(){return {f:short(f),ok:false};});
+    })).then(function(res){
+      if(settled()){ok();return;}
+      return scanDeps(res.filter(function(x){return !x.ok;}).map(function(x){return x.f;})).then(function(missing){
+        if(settled()){ok();return;}
+        if(missing.length)show(missing);
+        else if(!window.__JINGXI_MODULE_LOADED)show(['脚本在解析或初始化阶段就中断了（上面这些文件都在，按 F12 看控制台第一条红字）']);
+        else show(['脚本已加载但初始化报错：按 F12 打开控制台，把第一条红字发我']);
+      });
+    });
+  }
+  setTimeout(check,7000);
+  // 初始化一完成就落标记（不等 7 秒那一轮），供页面自身与自动化测试判断「已正常起跑」
+  var tick=setInterval(function(){
+    if(settled()){ok();clearInterval(tick);}
+  },300);
+  document.getElementById('bg-retry').addEventListener('click',function(){location.reload();});
+})();
+</script>
+</body></html>
