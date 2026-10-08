@@ -16,6 +16,7 @@
 ├─ GLTFLoader.js 等 addon
 ├─ manifest.json  alignment.json  town-map.jpg  shangzhuang.jpg
 ├─ v-*.jpg  p-*.jpg  s-*.jpg      ← 图鉴与作坊配图（24 张，根级）
+├─ cg-opening-30s.mp4             ← 开场 CG 视频（720p 网页轻量版，约 7MB）
 └─ .nojekyll
 ```
 
@@ -44,3 +45,7 @@ Branch: main    Folder: /(root)    → Save
 冲突（2026-10-06 实测后拍板撤销，美术资源优先于体积）。
 模型**按季懒加载**：首屏只解析当前季，其余季在空闲时预取，进入时再解析；
 内存里最多保留 3 季，更早的会自动释放显存。
+
+开场 CG 为 **30 秒 AI 渲染视频**（`cg-opening-30s.mp4`，H.264 + faststart，约 7MB）：
+标题屏停留期间即开始 preload，点「点击进入」后全屏播放，播完落位到当前季场景。
+视频无音轨，氛围音效由 `audio.js` 程序化合成在关键节点触发。
